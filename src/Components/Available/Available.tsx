@@ -20,9 +20,9 @@ const Available = () => {
 
             </div>
             <div className='container relative'>
-                <h1 className='flex gap-2 relative md:ml-0 ml-8'>New Drops <hr className='md:w-48 w-20 mt-auto' /></h1>
-                <h1 className='md:text-3xl text-xl md:ml-0 ml-8 font-bold relative'>Available Now!</h1>
-                <div className=' relative mt-10 flex md:justify-start justify-center flex-wrap gap-7'>
+                <h1 className='flex gap-2 relative md:ml-10 ml-8'>New Drops <hr className='md:w-48 w-20 mt-auto' /></h1>
+                <h1 className='md:text-3xl text-xl md:ml-10 ml-8 font-bold relative'>Available Now!</h1>
+                <div className=' relative mt-10 flex  justify-center  flex-wrap gap-7'>
                     {
                         images.map((e, idx) =>
                             <motion.div key={idx} initial={{ rotateZ: 20, opacity: 1 }} animate={{
@@ -33,7 +33,7 @@ const Available = () => {
                                     delay: .1 + ((idx+.5)/10),
                                     ease: "easeInOut"
                                 }
-                            }} whileInView={{ rotateZ: 0, transition: { bounce: .7, type: "spring", duration: 1 } }} className='lg:w-80 md:w-40 w-24 bg-white h-28 rounded-xl'>
+                            }} whileInView={{ rotateZ: 0, transition: { bounce: .7, type: "spring", duration: 1 } }} className='lg:w-80 md:w-40 w-24  bg-white h-28 rounded-xl'>
                                 <motion.div initial={{ y: 0 }} animate={{
 
                                 }} ><Image src={e} className='w-52 mx-auto  ' alt='image'></Image></motion.div>

@@ -15,6 +15,8 @@ export default function Footer() {
                 <Image
                   src="/logo.png"
                   alt="Logo"
+                  width={20}
+                  height={20}
                   className="mr-2 w-10 h-10"
                 />
                 <h2 className="text-lg font-bold">Buddy&apos;s Bodega</h2>

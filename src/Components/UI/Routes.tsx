@@ -22,7 +22,7 @@ interface route {
 
 export const Routes : route[] = [
     {
-      "route": "/home",
+      "route": "",
       "title": "Home",
       "icon": home
     },
@@ -37,32 +37,32 @@ export const Routes : route[] = [
       "icon": destination
     },
     {
-      "route": "/flower",
-      "title": "Flower",
+      "route": "/products/flowers",
+      "title": "Flowers",
       "icon": flower
     },
     {
-      "route": "/edibles",
+      "route": "/products/edibles",
       "title": "Edibles",
       "icon": Edibles
     },
     {
-      "route": "/vapes",
+      "route": "/products/vapes",
       "title": "Vapes",
       "icon": Vapes
     },
     {
-      "route": "/concentrates",
+      "route": "/products/concentrates",
       "title": "Concentrates",
       "icon": Concentrates
     },
     {
-      "route": "/pre-rolls",
+      "route": "/products/pre-rolls",
       "title": "Pre-Rolls",
       "icon": PreRolls,
     },
     {
-      "route": "/accessories",
+      "route": "/products/accessories",
       "title": "Accessories",
       "icon": Accessories
     },

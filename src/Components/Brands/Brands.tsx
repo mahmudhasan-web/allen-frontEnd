@@ -19,9 +19,9 @@ const Brands = () => {
     return (
         <div className='relative py-10 h-[700px] text-color space-y-2'>
             <div className='container relative space-y-2'>
-                <h1 className='flex gap-2 justify-center relative md:text-start text-center'>Brands <hr className='md:w-48 w-20 border-color mt-auto' /></h1>
+                <h1 className='flex gap-2  relative md:text-start text-center'>Brands <hr className='md:w-48 w-20 border-color mt-auto' /></h1>
                 <h1 className='text-3xl font-bold relative uppercase md:text-start text-center'>brands we carry</h1>
-                <div className=' relative pt-10 flex flex-wrap md:justify-start justify-center gap-8'>
+                <div className=' relative pt-10 flex flex-wrap md:justify-start overflow-hidden justify-center gap-8'>
                     {
                         images.map((e, idx) =>
                             <motion.div key={idx} initial={{ rotateZ: 20, opacity: 1 }} animate={{
@@ -32,10 +32,10 @@ const Brands = () => {
                                     delay: .1 + ((idx + .5) / 10),
                                     ease: "easeInOut"
                                 }
-                            }} whileInView={{ rotateZ: 0, transition: { bounce: .7, type: "spring", duration: 1 } }} className='lg:w-80 md:w-40 w-24 bg-white h-28 border shadow-2xl rounded-xl'>
+                            }} whileInView={{ rotateZ: 0, transition: { bounce: .7, type: "spring", duration: 1 } }} className='lg:w-80 md:w-40 w-24 bg-white h-28  border shadow-2xl rounded-xl'>
                                 <motion.div initial={{ y: 0 }} animate={{
 
-                                }} ><Image src={e} className='w-52 mx-auto  ' alt='image'></Image></motion.div>
+                                }} ><Image src={e} className='w-52  mx-auto  ' alt='image'></Image></motion.div>
                             </motion.div>
                         )
                     }

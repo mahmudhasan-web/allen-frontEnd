@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/Components/Navbar/Navbar";
 import Footer from "@/Components/Footer/Footer";
+import ReduxProvider from "@/Redux/ReduxProvider";
 
 
 
@@ -26,17 +27,19 @@ export default function RootLayout({
       <body
         className={`  antialiased`}
       >
-        <div>
+        <ReduxProvider>
           <div>
-            <Navbar></Navbar>
+            <div>
+              <Navbar></Navbar>
+            </div>
+            <div>
+              {children}
+            </div>
+            <div>
+              <Footer></Footer>
+            </div>
           </div>
-          <div>
-            {children}
-          </div>
-          <div>
-            <Footer></Footer>
-          </div>
-        </div>
+        </ReduxProvider>
       </body>
     </html>
   );

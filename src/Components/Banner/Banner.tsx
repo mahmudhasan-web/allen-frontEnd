@@ -17,7 +17,7 @@ const Banner= () => {
       {/* Content */}
       <div className="  container relative left-3 top-[50%]">
         <h1 id='text' className="lg:text-6xl md:text-4xl text-3xl font-semibold  text-color ">LIGHT UP YOUR DAY</h1>
-        <p className="md:text-lg text-sm mb-6 max-w -xl ">
+        <p className="md:text-lg text-sm mb-6 max-w-xl ">
           Buddy’s Bodega is NYC’s premier cannabis delivery service, proudly bringing you the
           best brands and highest-quality products in the world. Using cutting-edge innovations,
           we deliver curated cannabis culture straight to your doorstep.

@@ -3,12 +3,12 @@ import React from 'react';
 
 const ForgetPassword = () => {
     return (
-        <div className="flex items-center justify-center my-24 ">
+        <div className="flex items-center justify-center my-24 px-3">
             <div className="w-full max-w-xl p-8 rounded-lg ">
-                <h2 className="mb-2 text-3xl font-semibold text-center text-gray-800">
+                <h2 className="mb-2 md:text-3xl text-xl font-semibold text-center text-gray-800">
                     Forget your password
                 </h2>
-                <p className='text-center'>Type your email or phone number to get a temporal code.</p>
+                <p className='text-center md:text-base text-sm'>Type your email or phone number to get a temporal code.</p>
                 <div className='mt-5'>
                     <label
                         htmlFor="email"

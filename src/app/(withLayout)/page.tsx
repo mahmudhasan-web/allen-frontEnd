@@ -9,16 +9,16 @@ export default function Page() {
     return (
         <div className="overflow-x-hidden">
             <Banner></Banner>
-            <div>
+            <div className="px-3">
                 <Experience />
             </div>
-            <div>
+            <div className="px-5">
                 <Featured />
             </div>
-            <div>
+            <div className="px-2">
                 <Available />
             </div>
-            <div>
+            <div className="px-3">
                 <Brands/>
             </div>
         </div>

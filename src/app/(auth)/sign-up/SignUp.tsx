@@ -1,19 +1,84 @@
 'use client'
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { FormEvent } from 'react';
+import React, { ChangeEvent, FormEvent, useState } from 'react';
 import uploadImage from '@/assests/uploadFile.png'
+import { IoEyeSharp } from 'react-icons/io5';
+import { FaEyeSlash } from 'react-icons/fa';
+import { useRegisterUserMutation } from '@/Redux/Api/userApi';
+import { useRouter } from 'next/navigation';
+import ShowToastify from '@/Utlis/ShowToastify';
+import { ToastContainer } from 'react-toastify';
+
 
 const SignUp = () => {
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const [sendCode, setSendCode] = useState("Send Code");
+    const route = useRouter();
+    const [password, setPassword] = useState<string>('');
+    const [showPassword, setShowPassword] = useState<boolean>(false);
+    const [confirmPassword, setConfirmPassword] = useState<boolean>(false)
+    // const dispatch = useDispatch()
+    const [registerFn] = useRegisterUserMutation()
+
+    const handleConfirmPassword = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.value != password) {
+            setConfirmPassword(true)
+        }
+        else {
+            setConfirmPassword(false)
+        }
+        if (e.target.value.length <= 0) {
+            setConfirmPassword(false)
+        }
+    }
+
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+        setSendCode("loading")
         e.preventDefault();
         console.log("Form Data Submitted:");
+        const formData = new FormData(e.currentTarget);
+        const firstName = formData.get('firstName') as string;
+        const lastName = formData.get('lastName') as string;
+        const nickName = formData.get('nickname') as string;
+        const phone = formData.get('phone') as string;
+        const email = formData.get('email') as string;
+        const password = formData.get('password') as string;
+        const address = formData.get('address') as string;
+        const city = formData.get('city') as string;
+        const state = formData.get('state') as string;
+        const zipCode = formData.get('zipcode') as string;
+        const socialMediaType = formData.get('social-media') as string;
+        const socialMediaName = formData.get('social-account') as string;
+        const referralPhone = formData.get('referral-phone') as string;
+        const idImage = formData.get('idImage') as File;
+        const idWithSelfie = formData.get('idWithSelfie') as File;
+        const data = { firstName, lastName, nickName, phone, email, password, address, city, state, zipCode, socialMediaType, socialMediaName, referralPhone }
+
+
+        formData.append("data", JSON.stringify(data))
+        formData.append('uploadId', idImage);
+        formData.append('uploadSelfieId', idWithSelfie);
+
+        const { data: res, error } = await registerFn(formData)
+        if (error && "data" in error && typeof error.data === 'object' && error.data !== null && "message" in error.data) {
+            console.log(error);
+            setSendCode("Send Code")
+            ShowToastify({ error: String(error?.data?.message) })
+        }
+        if (res) {
+            setSendCode("Send Code")
+            route.push(`/verifyOTP?email=${email}`)
+        }
+
+
+
+
     };
     return (
-        <div className="flex items-center justify-center  bg-white">
+        <div className="flex items-center justify-center  bg-white px-3">
             <div className="w-full max-w-xl p-6  rounded-lg">
                 {/* Title */}
-                <h2 className="text-3xl font-semibold text-center text-gray-800">
+                <h2 className="mb-2 md:text-3xl text-xl font-semibold text-center text-gray-800">
                     Member Sign-up
                 </h2>
                 <p className="mt-2 mb-4 text-center text-gray-500">
@@ -111,7 +176,7 @@ const SignUp = () => {
                     </div>
 
                     {/* Password */}
-                    <div>
+                    <div className='relative'>
                         <label
                             htmlFor="password"
                             className="block mb-2 text-sm font-medium text-gray-700"
@@ -119,16 +184,21 @@ const SignUp = () => {
                             Password
                         </label>
                         <input
-                            type="password"
+
                             id="password"
                             name="password"
+                            onChange={(e) => setPassword(e.target.value)}
                             placeholder="********"
+                            type={showPassword == true ? 'text' : 'password'}
                             className="w-full px-4 py-2 text-sm border rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
                         />
+                        <div className='absolute right-3 top-8'>
+                            <button type='button' className='text-lg' onClick={() => setShowPassword(!showPassword)}>{showPassword == false ? <IoEyeSharp /> : <FaEyeSlash />}</button>
+                        </div>
                     </div>
 
                     {/* Confirm Password */}
-                    <div>
+                    <div className='relative'>
                         <label
                             htmlFor="confirmPassword"
                             className="block mb-2 text-sm font-medium text-gray-700"
@@ -136,12 +206,17 @@ const SignUp = () => {
                             Confirm Password
                         </label>
                         <input
-                            type="password"
                             id="confirmPassword"
                             name="confirmPassword"
+                            onChange={handleConfirmPassword}
                             placeholder="********"
+                            type={showPassword == true ? 'text' : 'password'}
                             className="w-full px-4 py-2 text-sm border rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
                         />
+                        <div className='absolute right-3 top-8'>
+                            <button type='button' className='text-lg' onClick={() => setShowPassword(!showPassword)}>{showPassword == false ? <IoEyeSharp /> : <FaEyeSlash />}</button>
+                        </div>
+                        <p className={confirmPassword == false ? "hidden" : "text-sm text-red-600"}>Your password doesn&#39;t match</p>
                     </div>
 
                     {/* Address */}
@@ -214,13 +289,13 @@ const SignUp = () => {
                     {/* Social Media */}
                     <div>
                         <label
-                            htmlFor="zipcode"
+                            htmlFor="social-media"
                             className="block mb-2 text-sm font-medium text-gray-700"
                         >
-                            Zipcode
+                            Social Media
                         </label>
                         <div className='flex gap-2'>
-                            <select name="" className="w-full px-4 py-2 text-sm border rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" id="">
+                            <select name="social-media" className="w-full px-4 py-2 text-sm border rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" id="">
                                 <option value="facebook">Facebook</option>
                                 <option value="instagram">Instagram</option>
                                 <option value="twitter">Twitter</option>
@@ -230,8 +305,8 @@ const SignUp = () => {
                             </select>
                             <input
                                 type="text"
-                                id="zipcode"
-                                name="zipcode"
+                                id="social-account"
+                                name="social-account"
                                 placeholder="@your_account"
                                 className="w-full px-4 py-2 text-sm border rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
                             />
@@ -257,10 +332,10 @@ const SignUp = () => {
                     {/* Upload your id photo */}
                     <div>
                         <h1 className='text-center my-10 text-lg'>State ID • Drivers License • Passport</h1>
-                        <div className='flex justify-between'>
+                        <div className='flex md:justify-between justify-center gap-5 flex-wrap '>
                             <div className='flex gap-5'>
                                 <label
-                                    htmlFor="zipcode"
+                                    htmlFor="Upload Id"
                                     className="block my-auto mb-2 text-sm font-medium text-gray-700"
                                 >
                                     Upload ID
@@ -276,7 +351,7 @@ const SignUp = () => {
                             </div>
                             <div className='flex gap-5'>
                                 <label
-                                    htmlFor="zipcode"
+                                    htmlFor="upload Id with selfie"
                                     className="block mb-2 my-auto text-sm font-medium text-gray-700"
                                 >
                                     Upload Selfie holding ID
@@ -303,7 +378,7 @@ const SignUp = () => {
                         type="submit"
                         className="w-full px-4 py-2 mt-4 text-white bg-green-500 rounded-lg hover:bg-green-600 focus:ring-2 focus:ring-green-300 focus:outline-none"
                     >
-                        Send Code
+                        {sendCode}
                     </button>
                 </form>
 
@@ -312,8 +387,9 @@ const SignUp = () => {
                     Please use a mobile device to sign up.
                 </p>
             </div >
+            <ToastContainer/>
         </div >
     );
 };
 
-export default SignUp;
+export default SignUp

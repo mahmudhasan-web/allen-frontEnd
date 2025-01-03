@@ -1,14 +1,52 @@
 "use client"
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import './Style.css'
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { useLoginUserMutation } from '@/Redux/Api/userApi';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/Redux/store';
+import { setUser } from '@/Redux/ReduxFunction';
+import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
+import ShowToastify from '@/Utlis/ShowToastify';
+import { ToastContainer } from 'react-toastify';
 const SignIn = () => {
     const [showPass, setShowPass] = useState(false);
+    const [logIn, setLogIn] = useState("log in");
+    const [loginFn] = useLoginUserMutation()
+    const dispatch = useDispatch<AppDispatch>()
+    const route = useRouter()
+
+    const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setLogIn("Logging in...")
+        const formData = new FormData(e.currentTarget);
+        const email = formData.get('email') as string;
+        const password = formData.get('password') as string;
+        const { data, error } = await loginFn({ email, password })
+        if (error) {
+            console.log(error);
+            ShowToastify({ error: "Check your email and password" })
+            setLogIn("log in")
+        }
+        if (data) {
+            console.log(data);
+            dispatch(setUser({ name: data?.result?.user?.name, image: data?.result?.user?.uploadSelfieId }))
+            Cookies.set('token', data?.result?.accessToken)
+            setLogIn("log in")
+            route.push('/')
+
+        }
+
+
+
+    }
+
     return (
-        <div className="flex items-center justify-center ">
+        <div className="flex items-center justify-center px-3">
             <div className="w-full max-w-xl p-8 rounded-lg ">
-                <h2 className="mb-2 text-3xl font-semibold text-center text-gray-800">
+                <h2 className="mb-2 md:text-3xl text-xl font-semibold text-center text-gray-800">
                     Member Sign-in
                 </h2>
                 <p className="mb-6 text-sm text-center text-gray-500">
@@ -18,7 +56,7 @@ const SignIn = () => {
                     </Link>
                 </p>
 
-                <form className="space-y-4">
+                <form className="space-y-4" onSubmit={handleLogin}>
                     {/* Email Field */}
                     <div>
                         <label
@@ -62,10 +100,9 @@ const SignIn = () => {
 
                     {/* Submit Button */}
                     <button
-                        type="submit"
                         className="w-full px-4 py-2 text-white bg-color font-semibold rounded-lg hover:bg-green-600 focus:ring-2 focus:ring-green-300 focus:outline-none"
                     >
-                        Log in
+                        {logIn}
                     </button>
                 </form>
 
@@ -76,6 +113,7 @@ const SignIn = () => {
                     </Link>
                 </div>
             </div>
+            <ToastContainer />
         </div>
     );
 };

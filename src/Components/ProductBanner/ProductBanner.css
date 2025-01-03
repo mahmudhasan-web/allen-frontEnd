@@ -1,0 +1,38 @@
+/* Style the Swiper container */
+.mySwiper {
+    width: 100%;
+    height: 400px; /* Adjust as needed */
+    position: relative;
+  }
+  
+  /* Style the navigation buttons */
+  .swiper-button-next,
+  .swiper-button-prev {
+    position: absolute;
+    bottom: 20px; /* Place buttons at the bottom */
+    transform: translateX(-50%);
+    left: 50%; /* Center horizontally */
+    z-index: 10;
+    width: 40px; /* Adjust button size */
+    height: 40px;
+    background-color: rgba(0, 0, 0, 0.6); /* Optional: Add a background */
+    color: #fff; /* Button icon color */
+    border-radius: 50%; /* Make buttons circular */
+  }
+  
+  /* Adjust button alignment for individual buttons */
+  .swiper-button-prev {
+    transform: translate(-120%, 0); /* Adjust to the left of center */
+  }
+  
+  .swiper-button-next {
+    transform: translate(20%, 0); /* Adjust to the right of center */
+  }
+  
+  /* Optional: Hover effect for buttons */
+  .swiper-button-next:hover,
+  .swiper-button-prev:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+    cursor: pointer;
+  }
+  
